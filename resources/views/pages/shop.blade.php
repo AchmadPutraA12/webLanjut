@@ -1,0 +1,33 @@
+@extends('layouts.app')
+@section('front')
+    <section class="bg-cover bg-center h-screen relative flex items-center text-white"
+        style="background-image: url('https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8M;">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="container mx-auto text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to Cafe XYZ</h1>
+            <p class="text-lg mb-8">Delightful coffee and cozy atmosphere</p>
+            <a href="#"
+                class="bg-yellow-500 text-gray-900 hover:bg-yellow-400 px-6 py-3 rounded-full text-lg font-semibold transition duration-300">View
+                Menu</a>
+        </div>
+    </section>
+    <section class="py-16">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl text-white font-bold mb-8">Our Menu</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-14">
+                <!-- Menu Item 1 -->
+                @foreach ($produk as $pr)
+                    <div class="bg-white flex flex-col justify-between p-6 rounded-lg shadow-lg">
+                        <img src="{{ asset('storage/produks/' . basename($pr->foto)) }}"
+                            class="w-full h-60 object-fill mb-4 rounded">
+                        <h3 class="text-xl font-semibold mb-2">{{ $pr->nama_produk }}</h3>
+                        <p class="text-gray-700 mb-4">{{ $pr->deskripsi }}</p>
+                        <span class="text-yellow-500 font-bold text-lg">Rp.
+                            {{ number_format($pr->harga, 0, ',', '.') }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+@endsection
