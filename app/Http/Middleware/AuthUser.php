@@ -16,9 +16,8 @@ class AuthUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->utype){
-            session()->flush();
-            return redirect()->route('login');
+        if (Auth::user()->role != 'admin') {
+            return redirect('/');
         }
         return $next($request);
     }
