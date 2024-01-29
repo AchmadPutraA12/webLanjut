@@ -83,4 +83,15 @@
             </div>
         </div>
     </section>
+    <script>
+        @if(session('success'))
+            Swal.fire({
+                title: 'Sukses!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
+    </script>
 @endsection

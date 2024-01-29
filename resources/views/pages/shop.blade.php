@@ -16,15 +16,24 @@
             <h2 class="text-3xl text-white font-bold mb-8">Our Menu</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-14">
-                <!-- Menu Item 1 -->
                 @foreach ($produk as $pr)
                     <div class="bg-white flex flex-col justify-between p-6 rounded-lg shadow-lg">
                         <img src="{{ asset('storage/produks/' . basename($pr->foto)) }}"
-                            class="w-full h-60 object-fill mb-4 rounded">
+                            class="w-full h-60 object-cover object-center mb-4 rounded">
                         <h3 class="text-xl font-semibold mb-2">{{ $pr->nama_produk }}</h3>
                         <p class="text-gray-700 mb-4">{{ $pr->deskripsi }}</p>
                         <span class="text-yellow-500 font-bold text-lg">Rp.
                             {{ number_format($pr->harga, 0, ',', '.') }}</span>
+
+                        <!-- Formulir untuk menambahkan produk ke dalam keranjang -->
+                        <form action="{{ route('keranjang.store') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="produk_id" value="{{ $pr->id }}">
+                            <input type="number" name="quantity" value="1" min="1" hidden>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">
+                                Add to Cart
+                            </button>
+                        </form>
                     </div>
                 @endforeach
             </div>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('admin//extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -67,8 +68,11 @@
                             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                             <circle cx="12" cy="7" r="4" />
                         </svg>
-
-                        <span>{{ Auth::user()->name }}</span>
+                        @if (Auth::user()->name == null)
+                            <span>{{ Auth::user()->email }}</span>
+                        @else
+                            <span>{{ Auth::user()->name }}</span>
+                        @endif
                     </div>
                 @endauth
 
@@ -79,6 +83,8 @@
                             onclick="event.preventDefault();document.getElementById('frmlogout').submit();">
                             Logout
                         </a>
+                        <a class="font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-gray-400 dark:hover:text-gray-500"
+                            href="{{ route('keranjang.index') }}"><span class="fa-fw select-all fas"></span></a>
                         <form id="frmlogout" action="{{ route('logout') }}" method="POST">
                             @csrf
                         </form>

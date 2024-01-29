@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('users_id');
             $table->enum('status',['lunas','tidak'])->default('tidak');
+            $table->integer('no_meja')->nullable();
             $table->decimal('total',10,2);
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();

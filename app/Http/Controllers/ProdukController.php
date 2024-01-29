@@ -55,9 +55,6 @@ class ProdukController extends Controller
 
             return redirect()->route('produk')->with('success', 'Produk berhasil ditambahkan.');
         } catch (\Exception $e) {
-            // Log pesan kesalahan
-            Log::error($e->getMessage());
-
             // Redirect dengan pesan kesalahan
             return redirect()->route('produk')->with('error', 'Terjadi kesalahan. Produk gagal ditambahkan.');
         }
@@ -86,38 +83,35 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_produk' => 'required',
-            'deskripsi' => 'required',
-            'harga' => 'required|numeric',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        // Temukan produk yang akan diupdate
         $produk = Produk::findOrFail($id);
 
-        // Periksa apakah foto baru dipilih
-        if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
-            Storage::delete($produk->foto);
-
-            // Upload foto baru ke direktori storage
-            $fotoPath = $request->file('foto')->store('public/produks');
-
-            // Simpan path foto baru ke dalam database
-            $produk->update([
-                'foto' => $fotoPath,
-            ]);
-        }
-
-        // Update data produk lainnya
-        $produk->update([
-            'nama_produk' => $request->nama_produk,
-            'deskripsi' => $request->deskripsi,
-            'harga' => $request->harga,
+        // Validasi form jika dibutuhkan
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Sesuaikan dengan kebutuhan Anda
         ]);
 
-        return redirect()->route('produk')->with('success', 'Produk berhasil diperbarui.');
+        // Hapus foto lama jika ada dan gambar baru diunggah
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama dari storage
+            $fotoPath = 'produks/' . basename($produk->foto);
+            if (Storage::disk('public')->exists($fotoPath)) {
+                Storage::disk('public')->delete($fotoPath);
+            }
+
+            // Simpan gambar baru ke storage
+            $foto = $request->file('foto');
+            $fotoPath = $foto->store('produks', 'public');
+            $produk->foto = $fotoPath;
+        }
+
+        // Update data produk
+        $produk->nama_produk = $request->input('nama_produk');
+        $produk->deskripsi = $request->input('deskripsi');
+        $produk->save();
+
+        return redirect()->route('produk')->with('success', 'Produk berhasil diperbarui');
     }
 
     /**
@@ -125,10 +119,22 @@ class ProdukController extends Controller
      */
     public function destroy(string $id)
     {
-        $produk = Produk::findOrFail($id);
+        $produk = Produk::find($id);
 
-        // Hapus data produk (yang akan memicu event deleting)
+        if (!$produk) {
+            return response()->json(['message' => 'Produk tidak ditemukan'], 404);
+        }
+
+        if ($produk->foto) {
+            $fotoPath = 'produks/' . basename($produk->foto);
+            if (Storage::disk('public')->exists($fotoPath)) {
+                Storage::disk('public')->delete($fotoPath);
+            }
+        }
+
+        // Hapus produk dari database
         $produk->delete();
-        return response()->json(['message' => 'Item deleted successfully']);
+
+        return redirect()->route('produk')->with('success', 'Produk berhasil dihapus');
     }
 }

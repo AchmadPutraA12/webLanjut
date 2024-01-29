@@ -17,6 +17,7 @@
     <link rel="stylesheet"
         href="{{ asset('admin/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/extensions/toastify-js/src/toastify.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -93,10 +94,7 @@
                                 </li>
 
                                 <li class="submenu-item">
-                                    <a href="" class="submenu-link">Data Pembeli</a>
-                                </li>
-                                <li class="submenu-item">
-                                    <a href="" class="submenu-link">Cart</a>
+                                    <a href="{{ route('pembeli') }}" class="submenu-link">Data Pembeli</a>
                                 </li>
                             </ul>
                         </li>

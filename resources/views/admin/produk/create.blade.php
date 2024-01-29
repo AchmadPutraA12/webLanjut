@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="col-sm-12 d-flex justify-content-end">
                                             <button name="submit" type="submit"
-                                                class="btn btn-primary me-1 mb-1">Submit</button>
+                                                class="btn btn-primary me-1 mb-1 text-blue-700">Submit</button>
                                             <a href="{{ route('produk') }}" class="btn btn-light-secondary me-1 mb-1">
                                                 Cancel</a>
                                         </div>

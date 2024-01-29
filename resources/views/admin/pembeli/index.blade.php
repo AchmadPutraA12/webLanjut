@@ -34,12 +34,13 @@
                     <div class="table-responsive">
                         <table class="table" id="table1">
                             <thead>
-                                <tr>
+                                <tr align="center">
                                     <th>No</th>
-                                    <th>Nama Produk</th>
-                                    <th>Deskripsi</th>
-                                    <th>Harga</th>
-                                    <th>Foto</th>
+                                    <th>Kode Pembayaran</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>No Telepon</th>
+                                    <th>Status Pembayaran</th>
+                                    <th>Total Harga</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -47,21 +48,26 @@
                                 @php
                                     $no = 1;
                                 @endphp
-                                @foreach ($produk as $pr)
+                                @foreach ($transaksi as $tran)
                                     <tr>
                                         <td>{{ $no++ }}</td>
-                                        <td>{{ $pr->nama_produk }}</td>
-                                        <td width="500">{{ $pr->deskripsi }}</td>
-                                        <td> Rp. {{ number_format( $pr->harga, 0, ',', '.') }}</td>
+                                        <td>{{ $tran->id }}</td>
+                                        <td>{{ $tran->nama }}</td>
+                                        <td>{{ $tran->telp }}</td>
+                                        @if ($tran->status == 'tidak')
+                                            <td>Belum Lunas</td>
+                                        @else
+                                            <td>Lunas</td>
+                                        @endif
                                         <td>
-                                            <img src="{{ asset('storage/produks/' . basename($pr->foto)) }}" width="100">
+                                            Rp. {{ number_format( $tran->total, 0, ',', '.') }}
                                         </td>
                                         <td>
-                                            <a href="{{ url('admin/produk/edit/' . $pr->id) }}"><span
-                                                    class="fa-fw select-all fas"></span></a>
-                                            <a href="#" onclick="confirmDelete('{{ $pr->id }}')">
-                                                <span class="fa-fw select-all fas"></span>
+                                            <a href="{{ url('admin/pembeli/show/' . $tran->id) }}">
+                                                <span class="fa-fw select-all fas"></span>
                                             </a>
+                                            <a href="{{ url('admin/pembeli/edit/' . $tran->id) }}"><span
+                                                class="fa-fw select-all fas"></span></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -72,31 +78,4 @@
             </div>
         </section>
     </div>
-    <script>
-        function confirmDelete(productId) {
-            Swal.fire({
-                title: 'Yakin ingin menghapus produk?',
-                text: 'Produk akan dihapus permanen!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    
-                    window.location.href = "{{ url('admin/produk/delete') }}/" + productId;
-                }
-            });
-        }
-        @if (session('success'))
-            Swal.fire({
-                title: 'Sukses!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                timer: 3000,
-                timerProgressBar: true,
-            });
-        @endif
-    </script>
 @endsection

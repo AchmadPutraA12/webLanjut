@@ -13,11 +13,17 @@ class Produk extends Model
     protected $table = 'produks';
 
     protected $fillable = [
+        'id',
         'nama_produk',
         'deskripsi',
         'foto',
         'harga',
     ];
+
+    public function detailTransaksi()
+    {
+        return $this->hasMany(DetailTransaksi::class);
+    }
 
     protected static function boot()
     {

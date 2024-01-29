@@ -19,10 +19,7 @@
                     @csrf
                     <h5>Create Account</h5>
                     <div class="social-icons">
-                        <a href="{{ url('login/google') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="{{ url('login/google') }}" class="icon"><img class="goggle" src="{{url('USER/img/google.png')}}" alt="">Sign up with google</a>
                     </div>
                     <span>or use your email for registeration</span>
                     <input placeholder="Name" id="name" type="text"
@@ -63,10 +60,7 @@
                     @csrf
                     <h1>Sign In</h1>
                     <div class="social-icons">
-                        <a href="{{ url('login/google') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="{{ url('login/google') }}" class="icon"><img class="goggle" src="{{url('USER/img/google.png')}}" alt="">Sign in with google</a>
                     </div>
                     <span>or use your email password</span>
                     <input placeholder="Email" id="email" type="email"
